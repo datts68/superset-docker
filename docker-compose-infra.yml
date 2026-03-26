@@ -8,7 +8,7 @@ services:
       - POSTGRES_PASSWORD=Xt306xyZ
       - POSTGRES_DB=superset
     volumes:
-      - ./volumes/postgres_data:/var/lib/postgresql/data
+      - .postgres_data:/var/lib/postgresql/data
     networks:
       - superset_network
     ports:
@@ -25,7 +25,7 @@ services:
     restart: always
     command: redis-server --save 60 1 --loglevel warning --requirepass Xt306xyZ
     volumes:
-      - ./volumes/redis_data:/data
+      - redis_data:/data
     networks:
       - superset_network
     ports:
@@ -35,6 +35,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
 
 networks:
   superset_network:

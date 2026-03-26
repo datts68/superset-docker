@@ -7,8 +7,15 @@ services:
       - '8078:8088'
     volumes:
       - ./superset_config.py:/app/pythonpath/superset_config.py
-      - ./volumes/superset_home:/app/superset_home
+      - superset_home:/app/superset_home
       - /dev/shm:/dev/shm
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        # reservations:
+        #   memory: 512M
     environment:
       - SUPERSET_CONFIG_PATH=/app/pythonpath/superset_config.py
     networks:
@@ -19,21 +26,29 @@ services:
     container_name: superset_worker
     restart: always
     shm_size: '1gb'
-    command:
-      [
+    deploy:
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 3G
+    command: [
         'celery',
         '--app',
         'superset.tasks.celery_app:app',
         'worker',
         '--pool=prefork',
+        # '-c', '2', # Giới hạn 2 tiến trình chạy song song để tránh treo server
       ]
     volumes:
       - ./superset_config.py:/app/pythonpath/superset_config.py
-      - ./volumes/superset_home:/app/superset_home
+      - superset_home:/app/superset_home
     environment:
       - SUPERSET_CONFIG_PATH=/app/pythonpath/superset_config.py
     networks:
       - superset_network
+
+volumes:
+  superset_home:
 
 networks:
   superset_network:

@@ -1,0 +1,103 @@
+========================================
+Chuẩn bị thư mục và Quyền hạn
+========================================
+mkdir -p volumes/postgres_data volumes/redis_data volumes/superset_home
+chmod -R 777 volumes/
+
+Tạo Network dùng chung:
+docker network create superset_network
+
+
+========================================
+Khởi động hệ thống
+========================================
+Chạy Infra (Postgres 16, Redis 7):
+docker compose -f docker-compose-infra.yml up -d
+
+Chạy App (Web + Worker):
+docker compose -f docker-compose-app.yml up -d
+
+
+========================================
+Khởi tạo Database (Migration)
+========================================
+docker exec -it superset_app superset db upgrade
+
+
+========================================
+Tạo tài khoản Quản trị (Admin)
+Thay đổi thông tin nếu cần, nhưng giữ nguyên role Admin
+========================================
+docker exec -it superset_app superset fab create-admin \
+    --username admin \
+    --firstname Superset \
+    --lastname Admin \
+    --email admin@xt306.xyz \
+    --password XT306@68
+
+
+========================================
+Khởi tạo quyền và Vai trò (Init)
+Đây là bước cực kỳ quan trọng để các menu và tính năng (như Download/Embed) hiển thị đúng
+========================================
+docker exec -it superset_app superset init
+
+
+========================================
+Nạp dữ liệu mẫu (Sample Data - Tùy chọn)
+Nếu muốn có sẵn các biểu đồ và Dashboard mẫu để test tính năng Download PDF và Nhúng (Embed):
+========================================
+docker exec -it superset_app superset load_examples
+
+
+
+========================================
+Cấu hình tính năng Embed dashboard
+========================================
+1. Ở file superset_config.py thêm dòng (nếu chưa có): GUEST_ROLE_NAME = "Public"
+Đây chính là role của user dùng để nhúng vào web
+
+2. Sửa role Public
+Settings -> List Roles -> Edit role "Public" có 4 quyền sau:
+- can read Chart
+- can read Dashboard
+- can read Dataset
+- can dashboard Superset
+(can explore json Superset)
+
+3. Tạo user xt306 hoặc dùng luôn tài khoản admin -> gán role Public
+
+4. Cách nhúng
+Bước 1: Gọi POST 'http://localhost:8078/api/v1/security/login' \
+  --header 'Content-Type: application/json' \
+  --body '{
+  "username": "admin",
+  "password": "XT306@68",
+  "provider": "db",
+  "refresh": true
+}'
+trả về access_token
+
+Bước 2: Dùng access_token trên gọi POST 'http://localhost:8078/api/v1/security/guest_token/' \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: Bearer ' \
+  --body '{ 
+  "user": {
+    "username": "xt306"
+  },
+  "resources": [
+    {
+      "id": "11",
+      "type": "dashboard"
+    }
+  ],
+  "rls": []
+}' \
+  --auth-bearer-token ''
+trả về trường token.
+
+Bước 3: Vào dashboard muốn nhúng
+Chọn Embed dashboard > Điền domain được phép nhúng (hoặc để trống) > Enable embedding
+
+Bước 4: Nhúng web
+Thay id, token ở các bước trên vào file index.html

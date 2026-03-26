@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: superset_db
+    restart: always
+    environment:
+      - POSTGRES_USER=superset
+      - POSTGRES_PASSWORD=Xt306xyZ
+      - POSTGRES_DB=superset
+    volumes:
+      - ./volumes/postgres_data:/var/lib/postgresql/data
+    networks:
+      - superset_network
+    ports:
+      - '5422:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U superset']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: superset_redis
+    restart: always
+    command: redis-server --save 60 1 --loglevel warning --requirepass Xt306xyZ
+    volumes:
+      - ./volumes/redis_data:/data
+    networks:
+      - superset_network
+    ports:
+      - '6369:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', '-a', 'Xt306xyZ', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  superset_network:
+    external: true

@@ -1,9 +1,6 @@
 ========================================
-Chuẩn bị thư mục và Quyền hạn
+Chuẩn bị
 ========================================
-mkdir -p volumes/postgres_data volumes/redis_data volumes/superset_home
-chmod -R 777 volumes/
-
 Tạo Network dùng chung:
 docker network create superset_network
 

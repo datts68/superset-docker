@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Superset 6.0\n"
-"PO-Revision-Date: 2026-03-27 15:30+0700\n"
+"PO-Revision-Date: 2026-03-27 16:50+0700\n"
 "Last-Translator: Gemini\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
@@ -74,9 +74,12 @@ msgstr "Không tìm thấy kết quả"
 msgid "Type to search"
 msgstr "Nhập để tìm kiếm..."
 
-# Xử lý triệt để chữ "options" (Thử cả 2 dạng vì AntD placeholder thường dùng dạng này)
+# --- FIX: Options (Thêm các biến thể viết hoa) ---
 msgid "options"
 msgstr "tùy chọn"
+
+msgid "Options"
+msgstr "Tùy chọn"
 
 msgid "%s options"
 msgstr "%s tùy chọn"
@@ -106,7 +109,7 @@ msgstr "Xem dạng bảng"
 msgid "Drill to detail"
 msgstr "Xem chi tiết dữ liệu"
 
-# --- Status & Time (Exact Match cho "Fetched a few seconds ago") ---
+# --- Status & Time (FIX: Fetched a few seconds ago) ---
 msgid "Fetched %s ago"
 msgstr "Đã tải %s trước"
 
@@ -118,6 +121,9 @@ msgstr "Vừa xong"
 
 msgid "Loading..."
 msgstr "Đang tải..."
+
+msgid "Refreshing charts"
+msgstr "Đang làm mới biểu đồ"
 
 # --- Time Range & Date Filter ---
 msgid "Time Range"
@@ -141,9 +147,9 @@ msgstr "Cấu hình khoảng thời gian"
 msgid "No filter"
 msgstr "Không lọc"
 
-# --- Range Filter (Xử lý cụ thể cho placeholder số) ---
+# --- Range Filter (FIX: Choose numbers...) ---
 msgid "Choose numbers between %s and %s"
-msgstr "Chọn các số trong khoảng %s và %s"
+msgstr "Chọn các số trong khoảng từ %s đến %s"
 
 msgid "Inclusive"
 msgstr "Bao gồm"
@@ -167,7 +173,35 @@ msgstr "Tùy chỉnh khoảng thời gian"
 msgid "Don't refresh"
 msgstr "Không làm mới"
 
-# Set auto-refresh interval
+msgid "Refresh interval saved"
+msgstr "Đã lưu khoảng thời gian làm mới"
+
+msgid "This dashboard is currently auto refreshing; the next auto refresh will be in %s."
+msgstr "Báo cáo này hiện đang tự động làm mới; lần làm mới tiếp theo sẽ sau %s."
+
+# --- Common Buttons & Values ---
+msgid "Cancel"
+msgstr "Hủy"
+
+msgid "Save for this session"
+msgstr "Lưu cho phiên này"
+
+msgid "<NULL>"
+msgstr "<RỖNG>"
+
+# --- Time Units (FIX: 0 seconds và Đơn vị trong Custom Interval) ---
+msgid "%s seconds"
+msgstr "%s giây"
+
+msgid "%s minutes"
+msgstr "%s phút"
+
+msgid "%s hours"
+msgstr "%s giờ"
+
+msgid "0 seconds"
+msgstr "0 giây"
+
 msgid "10 seconds"
 msgstr "10 giây"
 
@@ -215,3 +249,12 @@ msgstr "THÁNG"
 
 msgid "YEAR"
 msgstr "NĂM"
+
+msgid "seconds"
+msgstr "giây"
+
+msgid "minutes"
+msgstr "phút"
+
+msgid "hours"
+msgstr "giờ"

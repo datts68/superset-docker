@@ -24,7 +24,6 @@ CELERY_CONFIG = CeleryConfig
 WEBDRIVER_TYPE = "chromium"
 WEBDRIVER_EXECUTABLE_PATH = "/usr/bin/chromium"
 WEBDRIVER_BASEURL = "http://superset:8088/"
-
 WEBDRIVER_OPTION_ARGS = [
     "--headless",
     "--no-sandbox",
@@ -75,6 +74,7 @@ TALISMAN_CONFIG = {
 # Khi chạy với HTTPS => đổi Lax thành None và Secure thành True
 SESSION_COOKIE_SAMESITE = "Lax"
 SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_HTTPONLY = False
 
 # Cho phép Guest User xem các tài nguyên được chỉ định trong Guest Token
 GUEST_ROLE_NAME = "Public"
@@ -86,7 +86,23 @@ LANGUAGES = {
     "vi": {"flag": "vn", "name": "Vietnamese"},
     "en": {"flag": "us", "name": "English"},
 }
-BABEL_LOCALE_SELECTOR_FUNC = lambda: "vi"
+
+
+def get_locale():
+    return "vi"
+
+
+BABEL_LOCALE_SELECTOR_FUNC = get_locale
 BABEL_DEFAULT_TIMEZONE = "Asia/Ho_Chi_Minh"
 
 ENABLE_PROXY_FIX = True
+
+
+# --- CSS FIX (Ẩn các chuỗi không dịch được) ---
+# Tự động chèn CSS này vào mọi Dashboard
+# CUSTOM_STACKTRACE = False
+# DEFAULT_SECTION_NAME = "General"
+
+# # Cách ẩn thông qua CSS chèn vào Header
+# CSS_OVERRIDE = """
+# """

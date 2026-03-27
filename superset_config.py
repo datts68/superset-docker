@@ -21,7 +21,7 @@ class CeleryConfig:
 CELERY_CONFIG = CeleryConfig
 
 # --- Screenshot & Download Dashboard ---
-WEBDRIVER_TYPE = "chrome"
+WEBDRIVER_TYPE = "chromium"
 WEBDRIVER_EXECUTABLE_PATH = "/usr/bin/chromium"
 WEBDRIVER_BASEURL = "http://superset:8088/"
 
@@ -30,7 +30,7 @@ WEBDRIVER_OPTION_ARGS = [
     "--no-sandbox",
     "--disable-dev-shm-usage",
     "--disable-gpu",
-    "--window-size=1200,1200",
+    "--window-size=1920,1080",
 ]
 
 # --- Feature Flags ---
@@ -74,7 +74,6 @@ TALISMAN_CONFIG = {
 # Cookie settings cho môi trường không có HTTPS (Local/IP)
 SESSION_COOKIE_SAMESITE = "Lax"
 SESSION_COOKIE_SECURE = False
-SESSION_COOKIE_HTTPONLY = True
 
 # Cho phép Guest User xem các tài nguyên được chỉ định trong Guest Token
 GUEST_ROLE_NAME = "Public"
@@ -83,8 +82,10 @@ GUEST_TOKEN_JWT_EXPIRY_SECONDS = 3600
 # --- Localization ---
 BABEL_DEFAULT_LOCALE = "vi"
 LANGUAGES = {
-    "en": {"flag": "us", "name": "English"},
     "vi": {"flag": "vn", "name": "Vietnamese"},
+    "en": {"flag": "us", "name": "English"},
 }
+BABEL_ACCEPT_LANGUAGES = ["vi"]
+BABEL_ALLOW_BROWSER_LOCALE = False
 
 ENABLE_PROXY_FIX = True

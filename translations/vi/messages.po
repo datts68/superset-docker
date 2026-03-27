@@ -1,0 +1,217 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Superset 6.0\n"
+"PO-Revision-Date: 2026-03-27 15:30+0700\n"
+"Last-Translator: Gemini\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: Vietnamese\n"
+
+# --- Dashboard Actions ---
+msgid "Edit dashboard"
+msgstr "Chỉnh sửa báo cáo"
+
+msgid "Refresh dashboard"
+msgstr "Làm mới báo cáo"
+
+msgid "Force refresh dashboard"
+msgstr "Bắt buộc làm mới"
+
+msgid "Set auto-refresh interval"
+msgstr "Thiết lập tự động làm mới"
+
+msgid "Don't auto-refresh"
+msgstr "Không tự động làm mới"
+
+msgid "Download"
+msgstr "Tải xuống"
+
+msgid "Export to PDF"
+msgstr "Xuất file PDF"
+
+msgid "Download as PDF"
+msgstr "Tải xuống dạng PDF"
+
+msgid "Download as Image"
+msgstr "Tải xuống dạng hình ảnh"
+
+msgid "Export to CSV"
+msgstr "Xuất file CSV"
+
+msgid "Export to Excel"
+msgstr "Xuất file Excel"
+
+msgid "Enter fullscreen"
+msgstr "Toàn màn hình"
+
+msgid "Exit fullscreen"
+msgstr "Thoát toàn màn hình"
+
+# --- Filter Bar & Logic ---
+msgid "Filters"
+msgstr "Bộ lọc"
+
+msgid "Apply filters"
+msgstr "Áp dụng bộ lọc"
+
+msgid "Clear all"
+msgstr "Xóa tất cả"
+
+msgid "Select all"
+msgstr "Chọn tất cả"
+
+msgid "Deselect all"
+msgstr "Bỏ chọn tất cả"
+
+msgid "Select value"
+msgstr "Chọn giá trị"
+
+msgid "No results found"
+msgstr "Không tìm thấy kết quả"
+
+msgid "Type to search"
+msgstr "Nhập để tìm kiếm..."
+
+# Xử lý triệt để chữ "options" (Thử cả 2 dạng vì AntD placeholder thường dùng dạng này)
+msgid "options"
+msgstr "tùy chọn"
+
+msgid "%s options"
+msgstr "%s tùy chọn"
+
+msgid "%s Options"
+msgstr "%s tùy chọn"
+
+msgid "Select"
+msgstr "Chọn"
+
+msgid "Search"
+msgstr "Tìm kiếm"
+
+msgid "Filters out of scope (%s)"
+msgstr "Bộ lọc ngoài phạm vi (%s)"
+
+# --- Chart Actions ---
+msgid "Force refresh"
+msgstr "Bắt buộc làm mới"
+
+msgid "View query"
+msgstr "Xem truy vấn"
+
+msgid "View as table"
+msgstr "Xem dạng bảng"
+
+msgid "Drill to detail"
+msgstr "Xem chi tiết dữ liệu"
+
+# --- Status & Time (Exact Match cho "Fetched a few seconds ago") ---
+msgid "Fetched %s ago"
+msgstr "Đã tải %s trước"
+
+msgid "Fetched a few seconds ago"
+msgstr "Vừa mới tải xong"
+
+msgid "Just now"
+msgstr "Vừa xong"
+
+msgid "Loading..."
+msgstr "Đang tải..."
+
+# --- Time Range & Date Filter ---
+msgid "Time Range"
+msgstr "Khoảng thời gian"
+
+msgid "Time range"
+msgstr "Khoảng thời gian"
+
+msgid "Edit time range"
+msgstr "Chỉnh sửa khoảng thời gian"
+
+msgid "Range type"
+msgstr "Loại khoảng"
+
+msgid "Actual time range"
+msgstr "Khoảng thời gian thực tế"
+
+msgid "Configure time range"
+msgstr "Cấu hình khoảng thời gian"
+
+msgid "No filter"
+msgstr "Không lọc"
+
+# --- Range Filter (Xử lý cụ thể cho placeholder số) ---
+msgid "Choose numbers between %s and %s"
+msgstr "Chọn các số trong khoảng %s và %s"
+
+msgid "Inclusive"
+msgstr "Bao gồm"
+
+msgid "Min"
+msgstr "Tối thiểu"
+
+msgid "Max"
+msgstr "Tối đa"
+
+# --- Tự động làm mới (Auto-refresh) ---
+msgid "Refresh interval"
+msgstr "Khoảng thời gian làm mới"
+
+msgid "Refresh frequency"
+msgstr "Tần suất làm mới"
+
+msgid "Custom interval"
+msgstr "Tùy chỉnh khoảng thời gian"
+
+msgid "Don't refresh"
+msgstr "Không làm mới"
+
+# Set auto-refresh interval
+msgid "10 seconds"
+msgstr "10 giây"
+
+msgid "30 seconds"
+msgstr "30 giây"
+
+msgid "1 minute"
+msgstr "1 phút"
+
+msgid "5 minutes"
+msgstr "5 phút"
+
+msgid "30 minutes"
+msgstr "30 phút"
+
+msgid "1 hour"
+msgstr "1 giờ"
+
+msgid "6 hours"
+msgstr "6 giờ"
+
+msgid "12 hours"
+msgstr "12 giờ"
+
+msgid "24 hours"
+msgstr "24 giờ"
+
+msgid "SECOND"
+msgstr "GIÂY"
+
+msgid "MINUTE"
+msgstr "PHÚT"
+
+msgid "HOUR"
+msgstr "GIỜ"
+
+msgid "DAY"
+msgstr "NGÀY"
+
+msgid "WEEK"
+msgstr "TUẦN"
+
+msgid "MONTH"
+msgstr "THÁNG"
+
+msgid "YEAR"
+msgstr "NĂM"

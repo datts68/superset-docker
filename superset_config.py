@@ -72,6 +72,7 @@ TALISMAN_CONFIG = {
 }
 
 # Cookie settings cho môi trường không có HTTPS (Local/IP)
+# Khi chạy với HTTPS => đổi Lax thành None và Secure thành True
 SESSION_COOKIE_SAMESITE = "Lax"
 SESSION_COOKIE_SECURE = False
 
@@ -85,7 +86,7 @@ LANGUAGES = {
     "vi": {"flag": "vn", "name": "Vietnamese"},
     "en": {"flag": "us", "name": "English"},
 }
-BABEL_ACCEPT_LANGUAGES = ["vi"]
-BABEL_ALLOW_BROWSER_LOCALE = False
+BABEL_LOCALE_SELECTOR_FUNC = lambda: "vi"
+BABEL_DEFAULT_TIMEZONE = "Asia/Ho_Chi_Minh"
 
 ENABLE_PROXY_FIX = True

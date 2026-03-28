@@ -49,7 +49,7 @@ msgstr "Toàn màn hình"
 msgid "Exit fullscreen"
 msgstr "Thoát toàn màn hình"
 
-# --- Filter Bar & Logic ---
+# --- Filter Bar ---
 msgid "Filters"
 msgstr "Bộ lọc"
 
@@ -74,27 +74,18 @@ msgstr "Không tìm thấy kết quả"
 msgid "Type to search"
 msgstr "Nhập để tìm kiếm..."
 
-# --- FIX: Options (Thêm các biến thể viết hoa) ---
-msgid "options"
-msgstr "tùy chọn"
-
-msgid "Options"
-msgstr "Tùy chọn"
-
-msgid "%s options"
-msgstr "%s tùy chọn"
-
-msgid "%s Options"
-msgstr "%s tùy chọn"
-
 msgid "Select"
 msgstr "Chọn"
 
 msgid "Search"
 msgstr "Tìm kiếm"
 
-msgid "Filters out of scope (%s)"
-msgstr "Bộ lọc ngoài phạm vi (%s)"
+# --- FIX: options trong selectbox ---
+msgid "options"
+msgstr "tùy chọn"
+
+msgid "Options"
+msgstr "Tùy chọn"
 
 # --- Chart Actions ---
 msgid "Force refresh"
@@ -109,27 +100,24 @@ msgstr "Xem dạng bảng"
 msgid "Drill to detail"
 msgstr "Xem chi tiết dữ liệu"
 
-# --- Status & Time (FIX: Fetched a few seconds ago) ---
-msgid "Fetched %s ago"
-msgstr "Đã tải %s trước"
-
-msgid "Fetched a few seconds ago"
-msgstr "Vừa mới tải xong"
-
-msgid "Just now"
-msgstr "Vừa xong"
-
+# --- Status & Fetched ---
 msgid "Loading..."
 msgstr "Đang tải..."
 
 msgid "Refreshing charts"
 msgstr "Đang làm mới biểu đồ"
 
-# --- Time Range & Date Filter ---
-msgid "Time Range"
-msgstr "Khoảng thời gian"
+msgid "Just now"
+msgstr "Vừa xong"
 
-msgid "Time range"
+msgid "Fetched %s ago"
+msgstr "Đã tải %s trước"
+
+msgid "Fetched a few seconds ago"
+msgstr "Vừa mới tải xong"
+
+# --- Time Range ---
+msgid "Time Range"
 msgstr "Khoảng thời gian"
 
 msgid "Edit time range"
@@ -147,20 +135,7 @@ msgstr "Cấu hình khoảng thời gian"
 msgid "No filter"
 msgstr "Không lọc"
 
-# --- Range Filter (FIX: Choose numbers...) ---
-msgid "Choose numbers between %s and %s"
-msgstr "Chọn các số trong khoảng từ %s đến %s"
-
-msgid "Inclusive"
-msgstr "Bao gồm"
-
-msgid "Min"
-msgstr "Tối thiểu"
-
-msgid "Max"
-msgstr "Tối đa"
-
-# --- Tự động làm mới (Auto-refresh) ---
+# --- Auto-refresh ---
 msgid "Refresh interval"
 msgstr "Khoảng thời gian làm mới"
 
@@ -179,29 +154,7 @@ msgstr "Đã lưu khoảng thời gian làm mới"
 msgid "This dashboard is currently auto refreshing; the next auto refresh will be in %s."
 msgstr "Báo cáo này hiện đang tự động làm mới; lần làm mới tiếp theo sẽ sau %s."
 
-# --- Common Buttons & Values ---
-msgid "Cancel"
-msgstr "Hủy"
-
-msgid "Save for this session"
-msgstr "Lưu cho phiên này"
-
-msgid "<NULL>"
-msgstr "<RỖNG>"
-
-# --- Time Units (FIX: 0 seconds và Đơn vị trong Custom Interval) ---
-msgid "%s seconds"
-msgstr "%s giây"
-
-msgid "%s minutes"
-msgstr "%s phút"
-
-msgid "%s hours"
-msgstr "%s giờ"
-
-msgid "0 seconds"
-msgstr "0 giây"
-
+# --- FIX: Các mốc thời gian cố định trong Dropdown ---
 msgid "10 seconds"
 msgstr "10 giây"
 
@@ -229,6 +182,23 @@ msgstr "12 giờ"
 msgid "24 hours"
 msgstr "24 giờ"
 
+# --- Common Buttons ---
+msgid "CANCEL"
+msgstr "HỦY"
+
+msgid "Cancel"
+msgstr "Hủy"
+
+msgid "APPLY"
+msgstr "ÁP DỤNG"
+
+msgid "Save for this session"
+msgstr "Lưu cho phiên này"
+
+msgid "<NULL>"
+msgstr "<RỖNG>"
+
+# --- Units ---
 msgid "SECOND"
 msgstr "GIÂY"
 

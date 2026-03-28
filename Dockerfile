@@ -2,25 +2,24 @@ FROM apache/superset:6.0.0
 
 USER root
 
-# 1. Cài đặt môi trường hệ thống
+# Cài đặt môi trường hệ thống
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     chromium chromium-driver fonts-liberation gettext fontconfig fonts-noto-core && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    fc-cache -fv
 
-RUN fc-cache -fv
-
-# 2. Cài đặt Drivers và Thư viện bổ sung
+# Cài đặt Drivers và Thư viện bổ sung
 RUN VENV_SITE_PACKAGES=$(find /app/.venv/lib -maxdepth 2 -name "site-packages") && \
     pip install --no-cache-dir --break-system-packages \
     --target "$VENV_SITE_PACKAGES" \
     psycopg2-binary redis
 
-# 3. Xử lý dịch thuật
+# Xử lý dịch thuật
 RUN mkdir -p /app/superset/translations/vi/LC_MESSAGES
 COPY ./translations/vi/messages.po /app/superset/translations/vi/LC_MESSAGES/messages.po
 
-# Script tạo JSON hỗ trợ cả Backend và i18next Frontend
+# Script tạo JSON (Đã tối ưu để Frontend Superset đọc được)
 COPY <<'EOF' /tmp/translate.py
 import json, os
 p = "/app/superset/translations/vi/LC_MESSAGES/messages.po"
@@ -48,12 +47,10 @@ if os.path.exists(p):
         json.dump(data, f, ensure_ascii=False)
 EOF
 
+# Biên dịch .po sang .mo (cho Backend) và chạy script tạo .json (cho Frontend)
 RUN /app/.venv/bin/pybabel compile -d /app/superset/translations -l vi && \
     /app/.venv/bin/python3 /tmp/translate.py && \
-    mkdir -p /app/superset/static/assets/ && \
-    cp /app/superset/translations/vi/LC_MESSAGES/messages.json /app/superset/static/assets/messages.json
-
-RUN chown -R superset:superset /app/superset/translations /app/superset/static/assets/
+    chown -R superset:superset /app/superset/translations
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     CHROMIUM_PATH=/usr/bin/chromium

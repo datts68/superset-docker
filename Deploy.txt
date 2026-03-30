@@ -1,51 +1,70 @@
 ========================================
-Chuẩn bị
+Build superset custom image
 ========================================
-Tạo Network dùng chung:
-docker network create superset_network
+docker build -t registry.egovernment.com.vn/superset-apache/superset-gtelict:6.0.0 .
+docker push registry.egovernment.com.vn/superset-apache/superset-gtelict:6.0.0
+
+docker tag postgres:16-alpine registry.egovernment.com.vn/superset-apache/postgres:16-alpine
+docker push registry.egovernment.com.vn/superset-apache/postgres:16-alpine
+
+docker tag redis:7-alpine registry.egovernment.com.vn/superset-apache/redis:7-alpine
+docker push registry.egovernment.com.vn/superset-apache/redis:7-alpine
 
 
 ========================================
-Khởi động hệ thống
+Tạo Secret kết nối với Harbor
 ========================================
-Chạy Infra (Postgres 16, Redis 7):
-docker compose -f docker-compose-infra.yml up -d
+Đăng nhập vào OCP Web UI, chọn đúng Project. Ở menu bên trái, chọn Workloads -> Secrets.
+Nhấn nút Create (góc trên bên phải) -> Chọn Image pull secret. Điền các thông số như sau:
+- Secret name: harbor-pull-secret
+- Authentication type: Image Registry Credentials
+- Registry server address: registry.egovernment.com.vn
+- Username: (Tài khoản Harbor của bạn)
+- Password: (Mật khẩu Harbor của bạn)
 
-Chạy App (Web + Worker):
-docker compose -f docker-compose-app.yml up -d
 
+========================================
+Apply toàn bộ cấu hình vào OpenShift
+========================================
+oc apply -f 01-config-secrets.yaml
+oc apply -f 02-pvc.yaml
+oc apply -f 03-infra.yaml
+oc apply -f 04-app.yaml
+Hoặc thao tác qua giao diện OCP UI.
 
 ========================================
 Khởi tạo Database (Migration)
 ========================================
-docker exec -it superset_app superset db upgrade
+superset db upgrade
+# oc exec $(oc get pods -l app=superset-app -o name) -- superset db upgrade
 
 
 ========================================
 Tạo tài khoản Quản trị (Admin)
 Thay đổi thông tin nếu cần, nhưng giữ nguyên role Admin
 ========================================
-docker exec -it superset_app superset fab create-admin \
+superset fab create-admin --username admin --firstname Superset --lastname Admin --email admin@gtelict.dev --password Gtelict@123.
+# oc exec $(oc get pods -l app=superset-app -o name) -- superset fab create-admin \
     --username admin \
     --firstname Superset \
     --lastname Admin \
-    --email admin@xt306.xyz \
-    --password XT306@68
+    --email admin@gtelict.dev \
+    --password Gtelict@123.
 
 
 ========================================
 Khởi tạo quyền và Vai trò (Init)
 Đây là bước cực kỳ quan trọng để các menu và tính năng (như Download/Embed) hiển thị đúng
 ========================================
-docker exec -it superset_app superset init
+superset init
+# oc exec $(oc get pods -l app=superset-app -o name) -- superset init
 
 
 ========================================
 Nạp dữ liệu mẫu (Sample Data - Tùy chọn)
 Nếu muốn có sẵn các biểu đồ và Dashboard mẫu để test tính năng Download PDF và Nhúng (Embed):
 ========================================
-docker exec -it superset_app superset load_examples
-
+superset load_examples
 
 
 ========================================

@@ -1,0 +1,152 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superset-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: superset-app
+  template:
+    metadata:
+      labels:
+        app: superset-app
+    spec:
+      enableServiceLinks: false
+      imagePullSecrets:
+        - name: harbor-pull-secret
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: superset
+          image: registry.egovernment.com.vn/superset-apache/superset-gtelict@sha256:0efee2cd8765c9599a92f3eaa980682afb645a330ba1ea73b5dc8ceb373a7365
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ['ALL']
+          ports:
+            - containerPort: 8088
+          env:
+            - name: SUPERSET_CONFIG_PATH
+              value: /app/pythonpath/superset_config.py
+            - name: GUNICORN_WORKERS
+              value: '5'
+          resources:
+            requests:
+              cpu: '1000m'
+              memory: '2Gi'
+            limits:
+              cpu: '4000m'
+              memory: '8Gi'
+          volumeMounts:
+            - mountPath: /app/pythonpath/superset_config.py
+              name: config-volume
+              subPath: superset_config.py
+            - mountPath: /app/superset_home
+              name: superset-home
+            - mountPath: /dev/shm
+              name: dshm
+      volumes:
+        - name: config-volume
+          configMap:
+            name: superset-config
+        - name: superset-home
+          persistentVolumeClaim:
+            claimName: superset-home-pvc
+        - name: dshm
+          emptyDir:
+            medium: Memory
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superset-worker-new
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: superset-worker-new
+  template:
+    metadata:
+      labels:
+        app: superset-worker-new
+    spec:
+      enableServiceLinks: false
+      imagePullSecrets:
+        - name: harbor-pull-secret
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: superset-worker
+          image: registry.egovernment.com.vn/superset-apache/superset-gtelict@sha256:0efee2cd8765c9599a92f3eaa980682afb645a330ba1ea73b5dc8ceb373a7365
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ['ALL']
+          command: ['celery']
+          args:
+            [
+              '--app',
+              'superset.tasks.celery_app:app',
+              'worker',
+              '--pool=prefork',
+              '--concurrency=8',
+            ]
+          env:
+            - name: SUPERSET_CONFIG_PATH
+              value: /app/pythonpath/superset_config.py
+          resources:
+            requests:
+              cpu: '2000m'
+              memory: '4Gi'
+            limits:
+              cpu: '8000m'
+              memory: '16Gi'
+          volumeMounts:
+            - mountPath: /app/pythonpath/superset_config.py
+              name: config-volume
+              subPath: superset_config.py
+            - mountPath: /app/superset_home
+              name: superset-home
+            - mountPath: /dev/shm
+              name: dshm
+      volumes:
+        - name: config-volume
+          configMap:
+            name: superset-config
+        - name: superset-home
+          persistentVolumeClaim:
+            claimName: superset-home-pvc
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: superset-app
+spec:
+  ports:
+    - port: 8088
+      targetPort: 8088
+  selector:
+    app: superset-app
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: superset-route
+spec:
+  to:
+    kind: Service
+    name: superset-app
+  port:
+    targetPort: 8088
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

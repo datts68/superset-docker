@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superset-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: superset-db
+  template:
+    metadata:
+      labels:
+        app: superset-db
+    spec:
+      imagePullSecrets:
+        - name: harbor-pull-secret
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: postgres
+          image: registry.egovernment.com.vn/superset-apache/postgres@sha256:0546d4b7ab903af5eb8b210c5c941566afd7890b00bb0185753c467f8675cd5a
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ['ALL']
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef: { name: superset-secrets, key: POSTGRES_USER }
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: superset-secrets, key: POSTGRES_PASSWORD }
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef: { name: superset-secrets, key: POSTGRES_DB }
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata # Tránh lỗi lost+found và permission
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+          livenessProbe:
+            exec:
+              command: ['pg_isready', '-U', 'superset']
+            initialDelaySeconds: 15
+            periodSeconds: 10
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: superset-postgres-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: superset-db
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: superset-db
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superset-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: superset-redis
+  template:
+    metadata:
+      labels:
+        app: superset-redis
+    spec:
+      imagePullSecrets:
+        - name: harbor-pull-secret
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: redis
+          image: registry.egovernment.com.vn/superset-apache/redis@sha256:81be8a1f52db5f99fe3de0bbbd2efce827f51ce409155a95e9bdbac8c2721ba6
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ['ALL']
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef: { name: superset-secrets, key: REDIS_PASSWORD }
+          command: ['/bin/sh', '-c']
+          args:
+            [
+              'redis-server --save 60 1 --loglevel warning --requirepass $(REDIS_PASSWORD)',
+            ]
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - mountPath: /data
+              name: redis-data
+          livenessProbe:
+            exec:
+              command: ['/bin/sh', '-c', 'redis-cli -a $(REDIS_PASSWORD) ping']
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: superset-redis-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: superset-redis
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    app: superset-redis

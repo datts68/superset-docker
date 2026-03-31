@@ -12,6 +12,7 @@ spec:
       labels:
         app: superset-app
     spec:
+      # Sửa lỗi 'tcp' cho App
       enableServiceLinks: false
       imagePullSecrets:
         - name: harbor-pull-secret
@@ -31,6 +32,7 @@ spec:
           env:
             - name: SUPERSET_CONFIG_PATH
               value: /app/pythonpath/superset_config.py
+            # Tăng số lượng worker của Gunicorn (Công thức: 2 * CPU + 1)
             - name: GUNICORN_WORKERS
               value: '5'
           resources:
@@ -87,14 +89,14 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop: ['ALL']
+          # Ép chạy Celery trực tiếp để không bị nhảy sang Gunicorn
           command: ['celery']
-          args:
-            [
+          args: [
               '--app',
               'superset.tasks.celery_app:app',
               'worker',
               '--pool=prefork',
-              '--concurrency=8',
+              '--concurrency=8', # Tăng concurrency để xử lý nhiều tác vụ song song
             ]
           env:
             - name: SUPERSET_CONFIG_PATH

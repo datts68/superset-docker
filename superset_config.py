@@ -32,12 +32,19 @@ WEBDRIVER_OPTION_ARGS = [
     "--window-size=1920,1080",
 ]
 
+# --- Theme & UI (Version 6.0.0) ---
+DEFAULT_THEME_CONTROLS = {
+    "default_scheme": "light",  # Ép mặc định là bản sáng
+    "prefers_color_scheme": False,  # Không tự nhảy theo trình duyệt
+}
+
 # --- Feature Flags ---
 FEATURE_FLAGS = {
     "EMBEDDED_SUPERSET": True,
     "ALERTS_REPORTS": True,
     "ALLOW_DASHBOARD_EXPORT": True,
     "DASHBOARD_RBAC": True,
+    # "DARK_MODE_PREFERENCE": False, # Ẩn nút chuyển Dark Mode ở menu người dùng
 }
 
 # --- Cấu hình BỎ QUA CSRF cho API (QUAN TRỌNG) ---
@@ -64,7 +71,15 @@ CORS_OPTIONS = {
 # Cho phép nhúng Iframe
 HTTP_HEADERS = {"X-Frame-Options": "ALLOWALL"}
 TALISMAN_CONFIG = {
-    "content_security_policy": {"frame-ancestors": ["*"]},
+    "content_security_policy": {
+        "frame-ancestors": ["*"],
+        # 'unsafe-inline' cho phép các tùy chỉnh CSS trong Dashboard hoạt động:
+        "style-src": ["'self'", "'unsafe-inline'"],
+        # 'unsafe-eval' thường cần thiết cho một số biểu đồ phức tạp ở bản mới:
+        "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        # Cho phép load icon SVG từ CSS:
+        "img-src": ["'self'", "data:", "blob:", "*"],
+    },
     "force_https": False,
     "session_cookie_secure": False,
     "session_cookie_samesite": None,

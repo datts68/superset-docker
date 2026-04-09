@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: superset-db
+  name: superset-db-ndxp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: superset-db
+      app: superset-db-ndxp
   template:
     metadata:
       labels:
-        app: superset-db
+        app: superset-db-ndxp
     spec:
       imagePullSecrets:
         - name: harbor-pull-secret
@@ -48,32 +48,32 @@ spec:
       volumes:
         - name: postgres-data
           persistentVolumeClaim:
-            claimName: superset-postgres-pvc
+            claimName: superset-postgres-ndxp-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: superset-db
+  name: superset-db-ndxp
 spec:
   ports:
     - port: 5432
       targetPort: 5432
   selector:
-    app: superset-db
+    app: superset-db-ndxp
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: superset-redis
+  name: superset-redis-ndxp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: superset-redis
+      app: superset-redis-ndxp
   template:
     metadata:
       labels:
-        app: superset-redis
+        app: superset-redis-ndxp
     spec:
       imagePullSecrets:
         - name: harbor-pull-secret
@@ -110,15 +110,15 @@ spec:
       volumes:
         - name: redis-data
           persistentVolumeClaim:
-            claimName: superset-redis-pvc
+            claimName: superset-redis-ndxp-pvc
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: superset-redis
+  name: superset-redis-ndxp
 spec:
   ports:
     - port: 6379
       targetPort: 6379
   selector:
-    app: superset-redis
+    app: superset-redis-ndxp

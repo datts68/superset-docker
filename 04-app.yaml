@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: superset-app
+  name: superset-app-ndxp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: superset-app
+      app: superset-app-ndxp
   template:
     metadata:
       labels:
-        app: superset-app
+        app: superset-app-ndxp
     spec:
       # Sửa lỗi 'tcp' cho App
       enableServiceLinks: false
@@ -53,10 +53,10 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: superset-config
+            name: superset-config-ndxp
         - name: superset-home
           persistentVolumeClaim:
-            claimName: superset-home-pvc
+            claimName: superset-home-ndxp-pvc
         - name: dshm
           emptyDir:
             medium: Memory
@@ -64,16 +64,16 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: superset-worker-new
+  name: superset-worker-ndxp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: superset-worker-new
+      app: superset-worker-ndxp
   template:
     metadata:
       labels:
-        app: superset-worker-new
+        app: superset-worker-ndxp
     spec:
       enableServiceLinks: false
       imagePullSecrets:
@@ -119,10 +119,10 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: superset-config
+            name: superset-config-ndxp
         - name: superset-home
           persistentVolumeClaim:
-            claimName: superset-home-pvc
+            claimName: superset-home-ndxp-pvc
         - name: dshm
           emptyDir:
             medium: Memory
@@ -131,22 +131,22 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: superset-app
+  name: superset-app-ndxp
 spec:
   ports:
     - port: 8088
       targetPort: 8088
   selector:
-    app: superset-app
+    app: superset-app-ndxp
 ---
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: superset-route
+  name: superset-ndxp
 spec:
   to:
     kind: Service
-    name: superset-app
+    name: superset-app-ndxp
   port:
     targetPort: 8088
   tls:

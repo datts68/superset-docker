@@ -79,8 +79,10 @@ Settings -> List Roles -> Edit role "Public" có 4 quyền sau:
 - can read Dashboard
 - can read Dataset
 - can dashboard Superset
-- can language pack Superset <= Để dịch đa ngôn ngữ
-(can explore json Superset)
+- can get embedded Dashboard
+- can language pack Superset <= Để bật đa ngôn ngữ
+- can read SecurityRestApi
+- can grant guest token SecurityRestApi
 
 3. Tạo user xt306 hoặc dùng luôn tài khoản admin -> gán role Public
 
@@ -154,4 +156,13 @@ div.ant-select-item-option-content:contains("Tùy chỉnh khoảng thời gian")
 /* 5. ẨN DÒNG 'Fetched ... ago' Ở GÓC BIỂU ĐỒ */
 .header-controls span[title*="Fetched"] {
     display: none !important;
+}
+
+/* Ép dashboard nền trắng */
+#superset-container {
+  background-color: white !important; /* Ép nền trắng cho container */
+}
+#superset-container iframe {
+  background-color: white !important; /* Ép nền trắng cho iframe */
+  color-scheme: light !important;      /* Ép trình duyệt render mode sáng */
 }

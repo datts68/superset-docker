@@ -142,7 +142,7 @@ spec:
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: superset-ndxp
+  name: ndxp
 spec:
   to:
     kind: Service

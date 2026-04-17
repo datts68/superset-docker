@@ -83,6 +83,7 @@ Settings -> List Roles -> Edit role "Public" có 4 quyền sau:
 - can language pack Superset <= Để bật đa ngôn ngữ
 - can read SecurityRestApi
 - can grant guest token SecurityRestApi
+- all datasource access all datasource access <= Share dữ liệu qua API (/swagger/v1)
 
 3. Tạo user xt306 hoặc dùng luôn tài khoản admin -> gán role Public
 

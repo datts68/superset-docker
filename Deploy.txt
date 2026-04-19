@@ -27,7 +27,7 @@ Thay đổi thông tin nếu cần, nhưng giữ nguyên role Admin
 ========================================
 docker exec -it superset_app superset fab create-admin \
     --username admin \
-    --firstname Superset \
+    --firstname Xt306 \
     --lastname Admin \
     --email devx@xt306.xyz \
     --password XT306@68

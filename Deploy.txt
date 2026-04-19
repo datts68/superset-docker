@@ -29,7 +29,7 @@ docker exec -it superset_app superset fab create-admin \
     --username admin \
     --firstname Superset \
     --lastname Admin \
-    --email admin@xt306.xyz \
+    --email devx@xt306.xyz \
     --password XT306@68
 
 

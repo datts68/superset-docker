@@ -44,6 +44,7 @@ FEATURE_FLAGS = {
     "ALERTS_REPORTS": True,
     "ALLOW_DASHBOARD_EXPORT": True,
     "DASHBOARD_RBAC": True,
+    # "ENABLE_SUPERSET_META_DB": True, # Nếu muốn kích hoạt Superset Meta Database (kết nối nhiều database)
     # "DARK_MODE_PREFERENCE": False, # Ẩn nút chuyển Dark Mode ở menu người dùng
 }
 

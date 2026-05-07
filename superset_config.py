@@ -113,7 +113,6 @@ def get_locale():
 
 BABEL_LOCALE_SELECTOR_FUNC = get_locale
 BABEL_DEFAULT_TIMEZONE = "Asia/Ho_Chi_Minh"
-
 ENABLE_PROXY_FIX = True
 
 

@@ -20,8 +20,14 @@ class CeleryConfig:
 
 CELERY_CONFIG = CeleryConfig
 
+# --- Theme & UI (Version 6.0.0) ---
+DEFAULT_THEME_CONTROLS = {
+    "default_scheme": "light",  # Ép mặc định là bản sáng
+    "prefers_color_scheme": False,  # Không tự nhảy theo trình duyệt
+}
+
 # --- Screenshot & Download Dashboard ---
-WEBDRIVER_TYPE = "chromium"
+WEBDRIVER_TYPE = "chrome"
 WEBDRIVER_EXECUTABLE_PATH = "/usr/bin/chromium"
 WEBDRIVER_BASEURL = "http://superset:8088/"
 WEBDRIVER_OPTION_ARGS = [
@@ -32,23 +38,17 @@ WEBDRIVER_OPTION_ARGS = [
     "--window-size=1920,1080",
 ]
 
-# --- Theme & UI (Version 6.0.0) ---
-DEFAULT_THEME_CONTROLS = {
-    "default_scheme": "light",  # Ép mặc định là bản sáng
-    "prefers_color_scheme": False,  # Không tự nhảy theo trình duyệt
-}
-
 # --- Feature Flags ---
 FEATURE_FLAGS = {
     "EMBEDDED_SUPERSET": True,
     "ALERTS_REPORTS": True,
     "ALLOW_DASHBOARD_EXPORT": True,
     "DASHBOARD_RBAC": True,
-    # "ENABLE_SUPERSET_META_DB": True, # Nếu muốn kích hoạt Superset Meta Database (kết nối nhiều database)
-    # "DARK_MODE_PREFERENCE": False, # Ẩn nút chuyển Dark Mode ở menu người dùng
     "THUMBNAILS": True,
     "DASHBOARD_CACHE_SCREENSHOT": True,
     "ENABLE_DASHBOARD_SCREENSHOT_ENDPOINTS": True,
+    # "ENABLE_SUPERSET_META_DB": True, # Nếu muốn kích hoạt Superset Meta Database (kết nối nhiều database)
+    # "DARK_MODE_PREFERENCE": False, # Ẩn nút chuyển Dark Mode ở menu người dùng
 }
 
 # --- Cấu hình BỎ QUA CSRF cho API (QUAN TRỌNG) ---
@@ -77,27 +77,31 @@ HTTP_HEADERS = {"X-Frame-Options": "ALLOWALL"}
 TALISMAN_CONFIG = {
     "content_security_policy": {
         "frame-ancestors": ["*"],
-        # 'unsafe-inline' cho phép các tùy chỉnh CSS trong Dashboard hoạt động:
-        "style-src": ["'self'", "'unsafe-inline'"],
-        # 'unsafe-eval' thường cần thiết cho một số biểu đồ phức tạp ở bản mới:
-        "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-        # Cho phép load icon SVG từ CSS:
-        "img-src": ["'self'", "data:", "blob:", "*"],
+        "style-src": [
+            "'self'",
+            "'unsafe-inline'",
+        ],  # 'unsafe-inline' cho phép các tùy chỉnh CSS trong Dashboard hoạt động
+        "script-src": [
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",
+        ],  # 'unsafe-eval' thường cần thiết cho một số biểu đồ phức tạp ở bản mới
+        "img-src": ["'self'", "data:", "blob:", "*"],  # Cho phép load icon SVG từ CSS
     },
-    "force_https": False,
-    "session_cookie_secure": False,
-    "session_cookie_samesite": None,
+    "force_https": False,  # Đổi thành True nếu hệ thống của bạn đã chạy HTTPS hoàn toàn
+    "session_cookie_secure": True,
+    "session_cookie_samesite": "None",
 }
 
 # Cookie settings cho môi trường không có HTTPS (Local/IP)
 # Khi chạy với HTTPS => đổi Lax thành None và Secure thành True
-SESSION_COOKIE_SAMESITE = "Lax"
-SESSION_COOKIE_SECURE = False
-SESSION_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SAMESITE = "None"
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True  # Nên để True để tăng tính bảo mật chống XSS
 
 # Cho phép Guest User xem các tài nguyên được chỉ định trong Guest Token
 GUEST_ROLE_NAME = "Public"
-GUEST_TOKEN_JWT_EXPIRY_SECONDS = 3600
+GUEST_TOKEN_JWT_EXP_SECONDS = 3600
 
 # --- Localization ---
 BABEL_DEFAULT_LOCALE = "vi"
